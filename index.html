@@ -518,7 +518,7 @@ let isTiming = false;
 // 1-Year Pace Engine (~9.5 algs/week rounded to 10 to clear all 493 variants across 52 weeks)
 const scheduleData = [
     {
-        dayNum: 1,
+        dayNum: "Monday",
         title: "Monday: Micro-Batch Intake",
         phase: "Learn",
         badgeClass: "badge-learn",
@@ -529,7 +529,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 2,
+        dayNum: "Tuesday",
         title: "Tuesday: Fill Weekly Quota",
         phase: "Learn",
         badgeClass: "badge-learn",
@@ -540,7 +540,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 3,
+        dayNum: "Wednesday",
         title: "Wednesday: Mechanical Assembly",
         phase: "Learn",
         badgeClass: "badge-learn",
@@ -550,7 +550,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 4,
+        dayNum: "Thursday",
         title: "Thursday: Anchor Case Profiles",
         phase: "Recognition",
         badgeClass: "badge-recognition",
@@ -561,7 +561,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 5,
+        dayNum: "Friday",
         title: "Friday: Blind Reactive Practice",
         phase: "Recognition",
         badgeClass: "badge-recognition",
@@ -572,7 +572,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 6,
+        dayNum: "Saturday",
         title: "Saturday: Database Integration",
         phase: "Integration",
         badgeClass: "badge-integration",
@@ -583,7 +583,7 @@ const scheduleData = [
         ]
     },
     {
-        dayNum: 7,
+        dayNum: "Sunday",
         title: "Sunday: Precision Review",
         phase: "Integration",
         badgeClass: "badge-integration",
@@ -635,8 +635,7 @@ function renderDayNav() {
     scheduleData.forEach((day, index) => {
         const btn = document.createElement('button');
         btn.className = `day-btn ${index === currentActiveDay ? 'active' : ''}`;
-        const numtoday = (num) => {if (num = 1) {return "Monday";} else if (num = 2) {return "Tuesday";} else if (num = 3) {return "Wednesday";} else if (num = 4) {return "Thursday";} else if (num = 5) {return "Friday";} else if (num = 6) {return "Saturday";} else if (num = 7) {return "Sunday";}}
-        btn.innerText = `${numtoday(day.dayNum)}`;
+        btn.innerText = day.dayNum;
         btn.onclick = () => {
             currentActiveDay = index;
             renderDayNav();
