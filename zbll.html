@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZBLL Learner</title>
+    <style>
+        :root {
+    --bg-color: #0d0f16;
+    --card-bg: #141724;
+    --text-color: #e2e8f0;
+    --accent-color: #ff9800;
+    --success-color: #10b981;
+    --border-color: #22273d;
+    --input-bg: #1d2235;
+    --footer-text: #4a5568;
+    --modal-header-bg: #1a1e2f;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 950px;
+    width: 100%;
+}
+
+/* App Branding Header */
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    background: #1c1f30;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+h1 {
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.subtitle {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+/* Speedcubing Links Bar */
+.links-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.resource-link {
+    background: rgba(99, 179, 237, 0.05);
+    border: 1px solid transparent;
+    color: #63b3ed;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.resource-link:hover {
+    background: rgba(99, 179, 237, 0.15);
+    border-color: rgba(99, 179, 237, 0.3);
+}
+
+/* Horizontal Day Switcher Navigation */
+.day-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.day-btn {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.day-btn.active {
+    background-color: var(--accent-color);
+    color: #000;
+    font-weight: bold;
+    border-color: var(--accent-color);
+}
+
+/* Core Dashboard Layout */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (min-width: 768px) {
+    .grid { grid-template-columns: 1.3fr 1fr; }
+}
+
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Interactive Components */
+.field-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-bottom: 6px;
+}
+
+.dropdown {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+/* Custom Progress Indicator */
+.progress-bar-container {
+    background-color: #1a1f33;
+    border-radius: 4px;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.progress-bar-fill {
+    background-color: var(--success-color);
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    color: #a0aec0;
+    margin: 0 0 15px 0;
+    text-align: right;
+}
+
+/* Phase Status Tags */
+.phase-badge {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.badge-learn { background-color: #2b4c7e; color: #fff; }
+.badge-recognition { background-color: #6d4c41; color: #fff; }
+.badge-integration { background-color: #388e3c; color: #fff; }
+
+/* Checklist Setup */
+.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.check-item:last-child { border-bottom: none; }
+
+.check-item input[type="checkbox"] {
+    margin-right: 12px;
+    margin-top: 3px;
+    transform: scale(1.2);
+    cursor: pointer;
+    accent-color: var(--success-color);
+}
+
+.check-text {
+    flex-grow: 1;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.completed .check-text {
+    text-decoration: line-through;
+    color: #4a5568;
+}
+
+/* Case Tracking Matrix */
+.case-matrix {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.case-box {
+    background-color: #1a1e2e;
+    border: 1px solid var(--border-color);
+    padding: 8px 3px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+}
+
+.case-box:hover {
+    border-color: #4a5568;
+}
+
+.case-box.mastered {
+    background-color: var(--success-color);
+    color: #0d0f16;
+    border-color: var(--success-color);
+}
+
+/* Stop Timer Sub-Module */
+.tool-box {
+    background-color: #1a1e2f;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.timer-display {
+    font-size: 2.2rem;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.btn {
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn:hover { background-color: #718096; }
+
+/* Embedded Overlay Modal for Iframe Browsing */
+.iframe-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    width: 92%;
+    height: 88%;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+    background-color: var(--modal-header-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-url-text {
+    font-size: 0.85rem;
+    color: #718096;
+    font-family: monospace;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 60%;
+}
+
+.close-btn {
+    background-color: #c53030;
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background-color: #9b2c2c;
+}
+
+.iframe-body {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* Ensures white canvas background for loaded documents */
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Out-Of-The-Way Compact Footer Utilities */
+.app-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+    padding: 15px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--footer-text);
+}
+
+.footer-reset-btn {
+    background: transparent;
+    border: none;
+    color: #5a2020;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+    padding: 2px 5px;
+    transition: color 0.2s;
+}
+
+.footer-reset-btn:hover {
+    color: #b71c1c;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ZBLL Branding & Logo Header -->
+        <header class="app-header">
+            <div class="logo-wrapper">
+                <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://w3.org">
+                    <rect x="5" y="5" width="26" height="26" rx="4" fill="#ef4444"/>
+                    <rect x="37" y="5" width="26" height="26" rx="4" fill="#3b82f6"/>
+                    <rect x="69" y="5" width="26" height="26" rx="4" fill="#ff9800"/>
+                    <rect x="5" y="37" width="26" height="26" rx="4" fill="#10b981"/>
+                    <rect x="37" y="37" width="26" height="26" rx="4" fill="#e2e8f0"/>
+                    <rect x="69" y="37" width="26" height="26" rx="4" fill="#3b82f6"/>
+                    <rect x="5" y="69" width="26" height="26" rx="4" fill="#ff9800"/>
+                    <rect x="37" y="69" width="26" height="26" rx="4" fill="#e2e8f0"/>
+                    <rect x="69" y="69" width="26" height="26" rx="4" fill="#ef4444"/>
+                </svg>
+            </div>
+            <div>
+                <h1>ZBLL Learner</h1>
+                <div class="subtitle">Complete 493-Case Mastery Engine • ~10 Algs / Week Plan</div>
+            </div>
+        </header>
+
+        <!-- Speedcubing Functional Resource Links -->
+        <section class="links-bar">
+            <button class="resource-link" onclick="openIframe('https://speedcubedb.com/a/3x3/ZBLL')">📚 View Algorithms Database</button>
+            <button class="resource-link" onclick="openIframe('https://bestsiteever.net/zbll/#/select')">🎯 Open Case Trainer</button>
+            <button class="resource-link" onclick="window.open('https://cstimer.net')">⏱️ Open csTimer</button>
+            <button style="display:none;" class="resource-link" onclick="openIframe('https://speedsolving.com')">📖 Read Wiki Guide</button>
+        </section>
+
+        <!-- Horizontal Week Day Navigation -->
+        <nav class="day-nav" id="dayNav"></nav>
+
+        <div class="grid">
+            <!-- Left Panel: Dynamic Daily Tasks Checklist -->
+            <main class="card">
+                <div class="card-title" id="checklistTitle">
+                    <span>Loading Schedule...</span>
+                    <span class="phase-badge" id="phaseBadge"></span>
+                </div>
+                <ul class="checklist" id="dailyChecklist"></ul>
+            </main>
+
+            <!-- Right Panel: Global Database Subsets & Tools -->
+            <aside class="sidebar-wrapper">
+                <!-- Database Progress Hub -->
+                <div class="card">
+                    <div class="card-title">Database Progress Tracker</div>
+                    
+                    <label for="setSelector" class="field-label">Choose Active ZBLL Set:</label>
+                    <select id="setSelector" class="dropdown" onchange="switchActiveSet()"></select>
+
+                    <div class="progress-bar-container">
+                        <div id="setProgressBar" class="progress-bar-fill"></div>
+                    </div>
+                    <p class="progress-text" id="setProgressText">0 / 0 Cases Mastered</p>
+
+                    <div class="case-matrix" id="caseMatrix"></div>
+                </div>
+
+                <!-- Recognition Stop-Timer Component -->
+                <div class="card">
+                    <div class="card-title">Recognition Stop-Timer</div>
+                    <div class="tool-box">
+                        <div class="timer-display" id="timerDisplay">0.00s</div>
+                        <button class="btn" id="timerBtn" onclick="toggleTimer()">Start Recognition</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Embedded Overlay Modal for Iframe Browsing -->
+        <div class="iframe-modal" id="iframeModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-url-text" id="modalUrlText">Loading resource...</span>
+                    <button class="close-btn" onclick="closeIframe()">✕ Close Overlay</button>
+                </div>
+                <div class="iframe-body">
+                    <iframe id="appIframe" src="" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Out-Of-The-Way Compact Footer Utilities -->
+        <footer class="app-footer">
+            <p>Data automatically caches locally.</p>
+            <button class="footer-reset-btn" onclick="wipeAllData()">Wipe local configurations</button>
+        </footer>
+    </div>
+
+    <script>
+        let currentActiveDay = 0;
+let timerInterval = null;
+let startTime = null;
+let isTiming = false;
+
+// 1-Year Pace Engine (~9.5 algs/week rounded to 10 to clear all 493 variants across 52 weeks)
+const scheduleData = [
+    {
+        dayNum: 1,
+        title: "Day 1: Micro-Batch Intake",
+        phase: "Learn",
+        badgeClass: "badge-learn",
+        tasks: [
+            "Pick **5 brand new algorithms** from your chosen active database subset.",
+            "Execute the setup configurations slowly and visually map out the track path of your front-right F2L pair.",
+            "Drill each case 40 times back-to-back using clean wrist fingertricks to lock in basic spatial muscle paths."
+        ]
+    },
+    {
+        dayNum: 2,
+        title: "Day 2: Fill Weekly Quota",
+        phase: "Learn",
+        badgeClass: "badge-learn",
+        tasks: [
+            "Verify yesterday's 5 cases using pure raw muscle memory with no cheat sheets.",
+            "Learn your next **5 new algorithms** from the active set to satisfy your 1-year pace threshold.",
+            "Drill these 5 new blocks 40 times each while tracking color segments visually across the upper face layers."
+        ]
+    },
+    {
+        dayNum: 3,
+        title: "Day 3: Mechanical Assembly",
+        phase: "Learn",
+        badgeClass: "badge-learn",
+        tasks: [
+            "Assemble all 10 new cases of the week and run a continuous loop (15 cycles each).",
+            "Perform 20 slow, un-timed 3x3 solves. Pause right at the final F2L slot insertion to look at your hand position before running a case execution."
+        ]
+    },
+    {
+        dayNum: 4,
+        title: "Day 4: Anchor Case Profiles",
+        phase: "Recognition",
+        badgeClass: "badge-recognition",
+        tasks: [
+            "Load up your custom digital algorithm trainer interface and select ONLY this week's 10 cases.",
+            "Run 50 isolated reps checking exact sticker arrangements using standardized recognition grids (Baum-Harris).",
+            "Utilize the Stop-Timer widget on the right. Stop it the exact millisecond your brain maps out the cross case. Target sub-1.5s."
+        ]
+    },
+    {
+        dayNum: 5,
+        title: "Day 5: Blind Reactive Practice",
+        phase: "Recognition",
+        badgeClass: "badge-recognition",
+        tasks: [
+            "Run 60 randomized trainer iterations on your micro-batch cluster.",
+            "If execution stutters or catches, reset and watch the F2L structural trajectory layout carefully.",
+            "Confirm that you are hitting your standard sub-1-second execution pacing."
+        ]
+    },
+    {
+        dayNum: 6,
+        title: "Day 6: Database Integration",
+        phase: "Integration",
+        badgeClass: "badge-integration",
+        tasks: [
+            "Mix this week's 10 items with ALL historical ZBLL sets you have logged to the right.",
+            "Simulate 40 authentic 3x3 solves under full pressure. If a cross pops up, immediately spot your pattern indicators.",
+            "Mark off your 10 newly mastered variants inside your tracking ledger matrix."
+        ]
+    },
+    {
+        dayNum: 7,
+        title: "Day 7: Precision Review",
+        phase: "Integration",
+        badgeClass: "badge-integration",
+        tasks: [
+            "Isolate your weakest or slowest algorithm slots from the week for a 10-minute deep drill.",
+            "Ensure everything feels fully responsive. If any case registers a cognitive pause over 2 seconds, leave its checkbox un-toggled to repeat it."
+        ]
+    }
+];
+
+// Complete mappings of all 493 cases partitioned by their SpeedCubeDB subsets
+const zbllDatabaseSubsets = {
+    "T-Set (72 Cases)": Array.from({length: 72}, (_, i) => `T-${i+1}`),
+    "u-Set (72 Cases)": Array.from({length: 72}, (_, i) => `U-${i+1}`),
+    "L-Set (72 Cases)": Array.from({length: 72}, (_, i) => `L-${i+1}`),
+    "H-Set (48 Cases)": Array.from({length: 48}, (_, i) => `H-${i+1}`),
+    "Pi-Set (72 Cases)": Array.from({length: 72}, (_, i) => `Pi-${i+1}`),
+    "Sune-Set (72 Cases)": Array.from({length: 72}, (_, i) => `S-${i+1}`),
+    "AntiSune-Set (72 Cases)": Array.from({length: 72}, (_, i) => `AS-${i+1}`),
+    "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"]
+};
+
+let activeSetKey = Object.keys(zbllDatabaseSubsets);
+
+function init() {
+    buildDropdownOptions();
+    renderDayNav();
+    renderChecklist(currentActiveDay);
+    renderMatrixAndProgress();
+}
+
+function buildDropdownOptions() {
+    const selector = document.getElementById('setSelector');
+    if (!selector) return;
+    selector.innerHTML = '';
+    Object.keys(zbllDatabaseSubsets).forEach(setKey => {
+        const option = document.createElement('option');
+        option.value = setKey;
+        option.innerText = setKey;
+        selector.appendChild(option);
+    });
+    activeSetKey = selector.value;
+}
+
+function renderDayNav() {
+    const nav = document.getElementById('dayNav');
+    if (!nav) return;
+    nav.innerHTML = '';
+    scheduleData.forEach((day, index) => {
+        const btn = document.createElement('button');
+        btn.className = `day-btn ${index === currentActiveDay ? 'active' : ''}`;
+        btn.innerText = `Day ${day.dayNum}`;
+        btn.onclick = () => {
+            currentActiveDay = index;
+            renderDayNav();
+            renderChecklist(currentActiveDay);
+        };
+        nav.appendChild(btn);
+    });
+}
+
+function renderChecklist(dayIndex) {
+    const day = scheduleData[dayIndex];
+    const titleContainer = document.getElementById('checklistTitle');
+    if (!titleContainer) return;
+    
+    titleContainer.querySelector('span:first-child').innerText = day.title;
+    
+    const badge = document.getElementById('phaseBadge');
+    badge.innerText = day.phase;
+    badge.className = `phase-badge ${day.badgeClass}`;
+
+    const listContainer = document.getElementById('dailyChecklist');
+    listContainer.innerHTML = '';
+
+    day.tasks.forEach((task, taskIndex) => {
+        const storageKey = `zbll_365_day_${dayIndex}_task_${taskIndex}`;
+        const isChecked = localStorage.getItem(storageKey) === 'true';
+
+        const li = document.createElement('li');
+        li.className = `check-item ${isChecked ? 'completed' : ''}`;
+        
+        const parsedText = task.replace(/\*\*(.*?)\*\*/g, '<strong>\$1</strong>').replace(/_(.*?)_/g, '<em>\$1</em>');
+
+        li.innerHTML = `
+            <input type="checkbox" id="${storageKey}" ${isChecked ? 'checked' : ''} onchange="toggleTask(this)">
+            <div class="check-text">${parsedText}</div>
+        `;
+        listContainer.appendChild(li);
+    });
+}
+
+function toggleTask(checkbox) {
+    const isChecked = checkbox.checked;
+    localStorage.setItem(checkbox.id, isChecked);
+    if (isChecked) {
+        checkbox.parentElement.classList.add('completed');
+    } else {
+        checkbox.parentElement.classList.remove('completed');
+    }
+}
+
+function switchActiveSet() {
+    const selector = document.getElementById('setSelector');
+    if (!selector) return;
+    activeSetKey = selector.value;
+    renderMatrixAndProgress();
+}
+
+function renderMatrixAndProgress() {
+    const matrix = document.getElementById('caseMatrix');
+    const progressBar = document.getElementById('setProgressBar');
+    const progressText = document.getElementById('setProgressText');
+    if (!matrix || !progressBar || !progressText) return;
+
+    matrix.innerHTML = '';
+    const currentSetCases = zbllDatabaseSubsets[activeSetKey];
+    let masteredCount = 0;
+
+    currentSetCases.forEach(caseId => {
+        const box = document.createElement('div');
+        const storageKey = `zbll_365_mastery_case_${caseId}`;
+        const isMastered = localStorage.getItem(storageKey) === 'true';
+        
+        if (isMastered) masteredCount++;
+
+        box.className = `case-box ${isMastered ? 'mastered' : ''}`;
+        box.innerText = caseId;
+        box.onclick = () => {
+            const currentStatus = localStorage.getItem(storageKey) === 'true';
+            localStorage.setItem(storageKey, !currentStatus);
+            renderMatrixAndProgress();
+        };
+        matrix.appendChild(box);
+    });
+
+    // Update graphical elements
+    const totalCases = currentSetCases.length;
+    const percentages = totalCases > 0 ? (masteredCount / totalCases) * 100 : 0;
+    progressBar.style.width = `${percentages}%`;
+    progressText.innerText = `${masteredCount} / ${totalCases} Cases Mastered (${Math.round(percentages)}%)`;
+}
+
+function toggleTimer() {
+    const btn = document.getElementById('timerBtn');
+    const display = document.getElementById('timerDisplay');
+    if (!btn || !display) return;
+
+    if (!isTiming) {
+        isTiming = true;
+        btn.innerText = "STOP (Recognized)";
+        btn.style.backgroundColor = "#ef4444";
+        startTime = performance.now();
+        timerInterval = setInterval(() => {
+            const elapsed = (performance.now() - startTime) / 1000;
+            display.innerText = elapsed.toFixed(2) + "s";
+        }, 10);
+    } else {
+        isTiming = false;
+        clearInterval(timerInterval);
+        btn.innerText = "Start Recognition";
+        btn.style.backgroundColor = "#4a5568";
+    }
+}
+
+// Embedded Inline Browser Controls
+function openIframe(url) {
+    const modal = document.getElementById('iframeModal');
+    const iframe = document.getElementById('appIframe');
+    const urlText = document.getElementById('modalUrlText');
+    
+    if(modal && iframe && urlText) {
+        urlText.innerText = `Source: ${url}`;
+        iframe.src = url;
+        modal.style.display = 'flex';
+    }
+}
+
+function closeIframe() {
+    const modal = document.getElementById('iframeModal');
+    const iframe = document.getElementById('appIframe');
+    
+    if(modal && iframe) {
+        iframe.src = ''; // Sever connection to stop background audio/processes
+        modal.style.display = 'none';
+    }
+}
+
+function wipeAllData() {
+if (confirm("Warning! This action will wipe all checkboxes and structural mastery logs across all sets. Proceed?")) {
+localStorage.clear();
+currentActiveDay = 0;
+init();
+}
+}
+window.onload = init;
+    </script>
+</body>
+</html>
