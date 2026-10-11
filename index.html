@@ -643,7 +643,7 @@ function renderDayNav() {
         const btn = document.createElement('button');
         btn.className = `day-btn ${index === currentActiveDay ? 'active' : ''}`;
         btn.innerText = day.dayNum;
-        btn.id = day.daynum;
+        btn.id = day.dayNum;
         btn.onclick = () => {
             currentActiveDay = index;
             renderDayNav();
