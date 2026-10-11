@@ -613,8 +613,15 @@ function init() {
     renderDayNav();
     renderChecklist(currentActiveDay);
     renderMatrixAndProgress();
+    currentDate();
 }
-
+        
+function currentDate() {
+    const today = new Date();
+    const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
+    document.getElementById(dayName).click();
+}
+    
 function buildDropdownOptions() {
     const selector = document.getElementById('setSelector');
     if (!selector) return;
@@ -636,6 +643,7 @@ function renderDayNav() {
         const btn = document.createElement('button');
         btn.className = `day-btn ${index === currentActiveDay ? 'active' : ''}`;
         btn.innerText = day.dayNum;
+        btn.id = day.daynum;
         btn.onclick = () => {
             currentActiveDay = index;
             renderDayNav();
