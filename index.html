@@ -626,6 +626,10 @@ function buildDropdownOptions() {
     const selector = document.getElementById('setSelector');
     if (!selector) return;
     selector.innerHTML = '';
+    const option = document.createElement('option');
+        option.value = 'All';
+        option.innerText = "All Sets (493 Cases)";
+        selector.appendChild(option);
     Object.keys(zbllDatabaseSubsets).forEach(setKey => {
         const option = document.createElement('option');
         option.value = setKey;
@@ -708,9 +712,12 @@ function renderMatrixAndProgress() {
     if (!matrix || !progressBar || !progressText) return;
 
     matrix.innerHTML = '';
-    const currentSetCases = zbllDatabaseSubsets[activeSetKey];
+    let currentSetCases;
+    if (activeSetKey = 'All') {
+        currentSetCases.push(...zbllDatabaseSubsets["T-Set (72 Cases)"], ...zbllDatabaseSubsets["u-Set (72 Cases)"], ...zbllDatabaseSubsets["L-Set (72 Cases)"], ...zbllDatabaseSubsets["H-Set (48 Cases)"], ...zbllDatabaseSubsets["Pi-Set (72 Cases)"], ...zbllDatabaseSubsets["Sune-Set (72 Cases)", ...zbllDatabaseSubsets["AntiSune-Set (72 Cases)"], ...zbllDatabaseSubsets["PLL-Set (21 Cases)"]);
+    } else { currentSetCases = zbllDatabaseSubsets[activeSetKey]; }
     let masteredCount = 0;
-
+    
     currentSetCases.forEach(caseId => {
         const box = document.createElement('div');
         const storageKey = `zbll_365_mastery_case_${caseId}`;
