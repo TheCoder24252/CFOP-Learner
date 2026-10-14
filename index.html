@@ -516,7 +516,7 @@ let timerInterval = null;
 let startTime = null;
 let isTiming = false;
 
-// 1-Year Pace Engine (~9.5 algs/week rounded to 10 to clear all 493 variants across 52 weeks)
+// 1-Year Pace Engine (~9.5 algs/week rounded to 10 to clear all 78 variants across 52 weeks)
 const scheduleData = [
     {
         dayNum: "Monday",
@@ -595,7 +595,7 @@ const scheduleData = [
     }
 ];
 
-// Complete mappings of all 493 cases partitioned by their SpeedCubeDB subsets
+// Complete mappings of all 78 cases partitioned by their SpeedCubeDB subsets
 const cfopDatabaseSubsets = {
     "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"],
     "OLL-Set (57 Cases)": Array.from({length: 57}, (_, i) => `OLL-${i+1}`)
@@ -623,7 +623,7 @@ function buildDropdownOptions() {
     selector.innerHTML = '';
     const option = document.createElement('option');
         option.value = 'All';
-        option.innerText = "All Sets (493 Cases)";
+        option.innerText = "All Sets (78 Cases)";
         selector.appendChild(option);
     Object.keys(cfopDatabaseSubsets).forEach(setKey => {
         const option = document.createElement('option');
