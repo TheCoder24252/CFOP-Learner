@@ -577,7 +577,7 @@ const scheduleData = [
         phase: "Integration",
         badgeClass: "badge-integration",
         tasks: [
-            "Mix this week's 10 items with ALL historical ZBLL sets you have logged to the right.",
+            "Mix this week's 10 items with ALL historical CFOP sets you have logged to the right.",
             "Simulate 40 authentic 3x3 solves under full pressure. If a cross pops up, immediately look for a ZBLL case.",
             "Mark off your 10 newly mastered variants inside your tracking ledger matrix."
         ]
@@ -666,7 +666,7 @@ function renderChecklist(dayIndex) {
     listContainer.innerHTML = '';
 
     day.tasks.forEach((task, taskIndex) => {
-        const storageKey = `zbll_365_day_${dayIndex}_task_${taskIndex}`;
+        const storageKey = `cfop_365_day_${dayIndex}_task_${taskIndex}`;
         const isChecked = localStorage.getItem(storageKey) === 'true';
 
         const li = document.createElement('li');
@@ -714,7 +714,7 @@ function renderMatrixAndProgress() {
     
     currentSetCases.forEach(caseId => {
         const box = document.createElement('div');
-        const storageKey = `zbll_365_mastery_case_${caseId}`;
+        const storageKey = `cfop_365_mastery_case_${caseId}`;
         const isMastered = localStorage.getItem(storageKey) === 'true';
         
         if (isMastered) masteredCount++;
