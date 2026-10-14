@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZBLL Learner</title>
+    <title>CFOP Learner</title>
     <style>
         :root {
     --bg-color: #0d0f16;
@@ -435,8 +435,8 @@ iframe {
                 </svg>
             </div>
             <div>
-                <h1>ZBLL Learner</h1>
-                <div class="subtitle">Complete 493-Case Mastery Engine • ~10 Algs / Week Plan</div>
+                <h1>CFOP Learner</h1>
+                <div class="subtitle">Complete 78-Case Mastery Engine (OLL & PLL) • ~10 Algs / Week Plan</div>
             </div>
         </header>
 
@@ -467,7 +467,7 @@ iframe {
                 <div class="card">
                     <div class="card-title">Database Progress Tracker</div>
                     
-                    <label for="setSelector" class="field-label">Choose Active ZBLL Set:</label>
+                    <label for="setSelector" class="field-label">Choose Active CFOP Set:</label>
                     <select id="setSelector" class="dropdown" onchange="switchActiveSet()"></select>
 
                     <div class="progress-bar-container">
@@ -523,7 +523,7 @@ const scheduleData = [
         phase: "Learn",
         badgeClass: "badge-learn",
         tasks: [
-            "Pick **5 brand new algorithms** from your chosen subset.",
+            "Pick **5 brand new algorithms** from your chosen set.",
             "Execute the setup configurations slowly and visually map out the case.",
             "Drill each case 40 times using lots of fingertricks to get good muscle memory."
         ]
@@ -595,18 +595,12 @@ const scheduleData = [
 ];
 
 // Complete mappings of all 493 cases partitioned by their SpeedCubeDB subsets
-const zbllDatabaseSubsets = {
-    "T-Set (72 Cases)": Array.from({length: 72}, (_, i) => `T-${i+1}`),
-    "u-Set (72 Cases)": Array.from({length: 72}, (_, i) => `U-${i+1}`),
-    "L-Set (72 Cases)": Array.from({length: 72}, (_, i) => `L-${i+1}`),
-    "H-Set (40 Cases)": Array.from({length: 40}, (_, i) => `H-${i+1}`),
-    "Pi-Set (72 Cases)": Array.from({length: 72}, (_, i) => `Pi-${i+1}`),
-    "Sune-Set (72 Cases)": Array.from({length: 72}, (_, i) => `S-${i+1}`),
-    "AntiSune-Set (72 Cases)": Array.from({length: 72}, (_, i) => `AS-${i+1}`),
-    "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"]
+const cfopDatabaseSubsets = {
+    "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"],
+    "T-Set (72 Cases)": Array.from({length: 57}, (_, i) => `T-${i+1}`)
 };
 
-let activeSetKey = Object.keys(zbllDatabaseSubsets);
+let activeSetKey = Object.keys(cfopDatabaseSubsets);
 
 function init() {
     buildDropdownOptions();
@@ -630,7 +624,7 @@ function buildDropdownOptions() {
         option.value = 'All';
         option.innerText = "All Sets (493 Cases)";
         selector.appendChild(option);
-    Object.keys(zbllDatabaseSubsets).forEach(setKey => {
+    Object.keys(cfopDatabaseSubsets).forEach(setKey => {
         const option = document.createElement('option');
         option.value = setKey;
         option.innerText = setKey;
@@ -714,8 +708,8 @@ function renderMatrixAndProgress() {
     matrix.innerHTML = '';
     let currentSetCases = [];
     if (activeSetKey == 'All') {
-        currentSetCases.push(...zbllDatabaseSubsets["T-Set (72 Cases)"], ...zbllDatabaseSubsets["u-Set (72 Cases)"], ...zbllDatabaseSubsets["L-Set (72 Cases)"], ...zbllDatabaseSubsets["H-Set (40 Cases)"], ...zbllDatabaseSubsets["Pi-Set (72 Cases)"], ...zbllDatabaseSubsets["Sune-Set (72 Cases)"], ...zbllDatabaseSubsets["AntiSune-Set (72 Cases)"], ...zbllDatabaseSubsets["PLL-Set (21 Cases)"]);
-    } else { currentSetCases = zbllDatabaseSubsets[activeSetKey]; }
+        currentSetCases.push(...cfopDatabaseSubsets["T-Set (72 Cases)"], ...cfopDatabaseSubsets["u-Set (72 Cases)"], ...cfopDatabaseSubsets["L-Set (72 Cases)"], ...cfopDatabaseSubsets["H-Set (40 Cases)"], ...cfopDatabaseSubsets["Pi-Set (72 Cases)"], ...cfopDatabaseSubsets["Sune-Set (72 Cases)"], ...cfopDatabaseSubsets["AntiSune-Set (72 Cases)"], ...cfopDatabaseSubsets["PLL-Set (21 Cases)"]);
+    } else { currentSetCases = cfopDatabaseSubsets[activeSetKey]; }
     let masteredCount = 0;
     
     currentSetCases.forEach(caseId => {
