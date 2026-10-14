@@ -597,7 +597,7 @@ const scheduleData = [
 // Complete mappings of all 493 cases partitioned by their SpeedCubeDB subsets
 const cfopDatabaseSubsets = {
     "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"],
-    "T-Set (72 Cases)": Array.from({length: 57}, (_, i) => `T-${i+1}`)
+    "OLL-Set (57 Cases)": Array.from({length: 57}, (_, i) => `OLL-${i+1}`)
 };
 
 let activeSetKey = Object.keys(cfopDatabaseSubsets);
@@ -708,7 +708,7 @@ function renderMatrixAndProgress() {
     matrix.innerHTML = '';
     let currentSetCases = [];
     if (activeSetKey == 'All') {
-        currentSetCases.push(...cfopDatabaseSubsets["T-Set (72 Cases)"], ...cfopDatabaseSubsets["u-Set (72 Cases)"], ...cfopDatabaseSubsets["L-Set (72 Cases)"], ...cfopDatabaseSubsets["H-Set (40 Cases)"], ...cfopDatabaseSubsets["Pi-Set (72 Cases)"], ...cfopDatabaseSubsets["Sune-Set (72 Cases)"], ...cfopDatabaseSubsets["AntiSune-Set (72 Cases)"], ...cfopDatabaseSubsets["PLL-Set (21 Cases)"]);
+        currentSetCases.push(...cfopDatabaseSubsets["OLL-Set (57 Cases)"], ...cfopDatabaseSubsets["PLL-Set (21 Cases)"]);
     } else { currentSetCases = cfopDatabaseSubsets[activeSetKey]; }
     let masteredCount = 0;
     
