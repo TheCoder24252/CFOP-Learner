@@ -437,7 +437,7 @@ iframe {
             </div>
             <div>
                 <h1>CFOP Learner</h1>
-                <div class="subtitle">Complete 78-Case Mastery Engine (OLL & PLL) • ~10 Algs / Week Plan</div>
+                <div class="subtitle">Complete 119-Case Mastery Engine (OLL & PLL & F2L) • ~10 Algs / Week Plan</div>
             </div>
         </header>
 
@@ -601,7 +601,7 @@ const scheduleData = [
 const cfopDatabaseSubsets = {
     "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"],
     "OLL-Set (57 Cases)": Array.from({length: 57}, (_, i) => `OLL-${i+1}`),
-    "F2L-Set (57 Cases)": Array.from({length: 41}, (_, i) => `F2L-${i+1}`)
+    "F2L-Set (41 Cases)": Array.from({length: 41}, (_, i) => `F2L-${i+1}`)
 };
 
 let activeSetKey = Object.keys(cfopDatabaseSubsets);
@@ -626,7 +626,7 @@ function buildDropdownOptions() {
     selector.innerHTML = '';
     const option = document.createElement('option');
         option.value = 'All';
-        option.innerText = "All Sets (78 Cases)";
+        option.innerText = "All Sets (119 Cases)";
         selector.appendChild(option);
     Object.keys(cfopDatabaseSubsets).forEach(setKey => {
         const option = document.createElement('option');
@@ -712,7 +712,7 @@ function renderMatrixAndProgress() {
     matrix.innerHTML = '';
     let currentSetCases = [];
     if (activeSetKey == 'All') {
-        currentSetCases.push(...cfopDatabaseSubsets["PLL-Set (21 Cases)"], ...cfopDatabaseSubsets["OLL-Set (57 Cases)"]);
+        currentSetCases.push(...cfopDatabaseSubsets["PLL-Set (21 Cases)"], ...cfopDatabaseSubsets["OLL-Set (57 Cases)"], ...cfopDatabaseSubsets["F2l-Set (41 Cases)"]);
     } else { currentSetCases = cfopDatabaseSubsets[activeSetKey]; }
     let masteredCount = 0;
     
