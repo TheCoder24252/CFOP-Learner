@@ -445,6 +445,7 @@ iframe {
         <section class="links-bar">
             <button class="resource-link" onclick="openIframe('https://speedcubedb.com/a/3x3/PLL')">📚 PLL Algorithms</button>
             <button class="resource-link" onclick="openIframe('https://speedcubedb.com/a/3x3/OLL')">📚 OLL Algorithms</button>
+            <button class="resource-link" onclick="openIframe('https://speedcubedb.com/a/3x3/F2L')">📚 F2L Algorithms</button>
             <button class="resource-link" onclick="openIframe('https://speedcubedb.com/t')">🎯 Practice</button>
             <button class="resource-link" onclick="window.open('https://cstimer.net')">⏱️ Timer</button>
             <button style="display:none;" class="resource-link" onclick="openIframe('https://speedsolving.com')">📖 Read Wiki Guide</button>
@@ -599,7 +600,8 @@ const scheduleData = [
 // Complete mappings of all 78 cases partitioned by their SpeedCubeDB subsets
 const cfopDatabaseSubsets = {
     "PLL-Set (21 Cases)": ["Aa", "Ab", "F", "G1", "G2", "G3", "G4", "Ja", "Jb", "Ra", "Rb", "T", "E", "Na", "Nb", "V", "Y", "H", "Ua", "Ub", "Z"],
-    "OLL-Set (57 Cases)": Array.from({length: 57}, (_, i) => `OLL-${i+1}`)
+    "OLL-Set (57 Cases)": Array.from({length: 57}, (_, i) => `OLL-${i+1}`),
+    "F2L-Set (57 Cases)": Array.from({length: 41}, (_, i) => `F2L-${i+1}`)
 };
 
 let activeSetKey = Object.keys(cfopDatabaseSubsets);
